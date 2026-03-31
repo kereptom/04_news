@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>News Update</title>
+  <title>BRIEFCAST</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after {
       margin: 0;
@@ -12,7 +15,7 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       background-color: #0a0a0a;
       color: #ededed;
       min-height: 100vh;
@@ -20,102 +23,135 @@
 
     header {
       border-bottom: 1px solid #1a1a1a;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      background: #0a0a0a;
-      z-index: 10;
+      padding: 1.5rem 2rem;
+      text-align: center;
     }
 
     .logo {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.25rem;
     }
 
-    .logo span {
+    .logo-brief {
+      color: #ededed;
+    }
+
+    .logo-cast {
       color: #3b82f6;
     }
 
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: #141414;
-      border: 1px solid #262626;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      width: 320px;
-    }
-
-    .search-bar input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #ededed;
-      font-size: 0.875rem;
-      width: 100%;
-    }
-
-    .search-bar input::placeholder {
-      color: #666;
-    }
-
-    .search-icon {
-      color: #666;
-      font-size: 0.875rem;
+    .header-stats {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: #555;
+      margin-top: 0.25rem;
     }
 
     nav {
       display: flex;
-      gap: 0.25rem;
-      padding: 0.75rem 2rem;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
       border-bottom: 1px solid #1a1a1a;
-      overflow-x: auto;
+      flex-wrap: wrap;
     }
 
-    .category-btn {
-      padding: 0.375rem 0.875rem;
+    .section-btn {
+      padding: 0.4rem 1rem;
       border-radius: 6px;
       border: 1px solid #262626;
       background: transparent;
       color: #999;
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.8125rem;
+      font-weight: 500;
       cursor: pointer;
-      white-space: nowrap;
       transition: all 0.15s;
     }
 
-    .category-btn:hover {
+    .section-btn:hover {
       border-color: #404040;
       color: #ededed;
     }
 
-    .category-btn.active {
-      background: #ededed;
+    .section-btn.active {
       color: #0a0a0a;
+      font-weight: 600;
+    }
+
+    .section-btn[data-section="all"].active {
+      background: #ededed;
       border-color: #ededed;
     }
 
-    main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 2rem;
+    .section-btn[data-section="global"].active {
+      background: #f59e0b;
+      border-color: #f59e0b;
     }
 
-    .section-title {
-      font-size: 0.75rem;
-      font-weight: 600;
+    .section-btn[data-section="czech"].active {
+      background: #3b82f6;
+      border-color: #3b82f6;
+      color: #fff;
+    }
+
+    .section-btn[data-section="dobris"].active {
+      background: #22c55e;
+      border-color: #22c55e;
+    }
+
+    .section-btn[data-section="tech"].active {
+      background: #a855f7;
+      border-color: #a855f7;
+      color: #fff;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .section-group {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6875rem;
+      font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #666;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.625rem;
+      border-radius: 4px;
+      display: inline-block;
       margin-bottom: 1rem;
     }
 
-    .news-grid {
+    .section-label.global {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+    }
+
+    .section-label.czech {
+      background: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+    }
+
+    .section-label.dobris {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .section-label.tech {
+      background: rgba(168, 85, 247, 0.15);
+      color: #a855f7;
+    }
+
+    .cards {
       display: grid;
       gap: 1px;
       background: #1a1a1a;
@@ -124,18 +160,17 @@
       overflow: hidden;
     }
 
-    .news-card {
+    .card {
       background: #0a0a0a;
       padding: 1.25rem 1.5rem;
-      cursor: pointer;
       transition: background 0.15s;
     }
 
-    .news-card:hover {
+    .card:hover {
       background: #111;
     }
 
-    .news-card-header {
+    .card-top {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -143,45 +178,127 @@
       margin-bottom: 0.5rem;
     }
 
-    .news-card h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      line-height: 1.4;
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.0625rem;
+      font-weight: 700;
+      line-height: 1.35;
       letter-spacing: -0.01em;
     }
 
-    .news-card .badge {
-      font-size: 0.6875rem;
+    .bias-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.625rem;
       padding: 0.125rem 0.5rem;
       border-radius: 9999px;
-      background: #1e3a5f;
-      color: #60a5fa;
       white-space: nowrap;
       flex-shrink: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
-    .news-card p {
+    .bias-neutral { background: #1c2a1c; color: #4ade80; }
+    .bias-liberal { background: #1c2a3a; color: #60a5fa; }
+    .bias-conservative { background: #2a1c1c; color: #f87171; }
+    .bias-critical { background: #2a2a1c; color: #facc15; }
+    .bias-analytical { background: #1c1c2a; color: #a78bfa; }
+    .bias-sensational { background: #2a1c2a; color: #f472b6; }
+
+    .card-summary {
       font-size: 0.875rem;
-      color: #888;
-      line-height: 1.5;
+      color: #999;
+      line-height: 1.6;
       margin-bottom: 0.75rem;
     }
 
-    .news-meta {
+    .coverage-row {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      font-size: 0.75rem;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .coverage-bar {
+      display: flex;
+      gap: 3px;
+    }
+
+    .coverage-sq {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      background: #1a1a1a;
+    }
+
+    .coverage-sq.filled-low { background: #555; }
+    .coverage-sq.filled-mid { background: #f59e0b; }
+    .coverage-sq.filled-high { background: #ef4444; }
+
+    .coverage-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6875rem;
       color: #555;
     }
 
-    .news-meta .source {
-      color: #3b82f6;
-      font-weight: 500;
+    .perspective {
+      background: #111;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.75rem;
+      border-left: 2px solid #333;
     }
 
-    .news-meta .dot {
-      color: #333;
+    .perspective-toggle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: #666;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+
+    .perspective-toggle:hover {
+      color: #999;
+    }
+
+    .perspective-text {
+      font-size: 0.8125rem;
+      color: #888;
+      line-height: 1.5;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    .perspective-text.open {
+      display: block;
+    }
+
+    .card-sources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+      margin-top: 0.5rem;
+    }
+
+    .source-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6875rem;
+      padding: 0.125rem 0.5rem;
+      border-radius: 4px;
+      background: #141414;
+      border: 1px solid #222;
+      color: #777;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .source-tag:hover {
+      border-color: #3b82f6;
+      color: #3b82f6;
     }
 
     .empty-state {
@@ -191,184 +308,317 @@
     }
 
     .empty-state h3 {
-      font-size: 1.125rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
       margin-bottom: 0.5rem;
-      color: #888;
+      color: #666;
     }
 
-    .timestamp {
+    .empty-state p {
+      font-size: 0.875rem;
+    }
+
+    footer {
       text-align: center;
-      padding: 1.5rem;
-      font-size: 0.75rem;
-      color: #444;
+      padding: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6875rem;
+      color: #333;
+      border-top: 1px solid #1a1a1a;
     }
 
     @media (max-width: 640px) {
-      header {
-        flex-direction: column;
-        gap: 0.75rem;
-        padding: 1rem;
-      }
-      .search-bar {
-        width: 100%;
-      }
-      nav {
-        padding: 0.75rem 1rem;
-      }
-      main {
-        padding: 1.5rem 1rem;
-      }
+      header { padding: 1rem; }
+      .logo { font-size: 1.5rem; }
+      nav { padding: 0.75rem 1rem; gap: 0.375rem; }
+      main { padding: 1.5rem 0.75rem; }
+      .card { padding: 1rem 1.125rem; }
+      .card h3 { font-size: 0.9375rem; }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">News<span>Update</span></div>
-    <div class="search-bar">
-      <span class="search-icon">&#128269;</span>
-      <input type="text" id="searchInput" placeholder="Search articles..." oninput="filterNews()">
-    </div>
+    <div class="logo"><span class="logo-brief">BRIEF</span><span class="logo-cast">CAST</span></div>
+    <div class="header-stats" id="headerStats"></div>
   </header>
 
-  <nav id="categories"></nav>
+  <nav id="sectionNav"></nav>
 
-  <main>
-    <p class="section-title" id="sectionTitle">Latest Updates</p>
-    <div class="news-grid" id="newsGrid"></div>
-    <p class="timestamp" id="timestamp"></p>
-  </main>
+  <main id="main"></main>
+
+  <footer>BRIEFCAST — cross-source news intelligence</footer>
 
   <script>
-    const categories = ['All', 'Technology', 'Business', 'Science', 'Health', 'Sports', 'World'];
-    let activeCategory = 'All';
+    // ============================================================
+    // NEWS DATA — This block is auto-updated by Claude Code.
+    // Do not edit manually. See CLAUDE.md for the update workflow.
+    // ============================================================
+    const NEWS_UPDATED = "2026-03-31T12:00:00Z";
 
-    const sampleNews = [
+    const NEWS_DATA = [
       {
-        title: 'AI Models Continue to Transform Software Development',
-        description: 'New research shows a significant increase in developer productivity when using AI-assisted coding tools across enterprise teams.',
-        source: 'TechDaily',
-        date: '2 hours ago',
-        category: 'Technology'
+        section: "global",
+        headline: "US-Israel Strikes Hit Tehran as Operation Epic Fury Enters Day 32",
+        summary: "The United States and Israel launched a new wave of strikes on Tehran and Isfahan overnight, escalating the month-long Operation Epic Fury campaign. Trump warned of 'complete obliteration' of Iran's infrastructure if a deal isn't reached soon, while CENTCOM confirmed 13 US service members killed and 303 wounded since the operation began February 28.",
+        sources: [
+          { name: "NPR", url: "https://www.npr.org/2026/02/28/nx-s1-5730352/world-leaders-reaction-operation-epic-fury" },
+          { name: "CNN", url: "https://www.cnn.com/2026/03/31/world/live-news/iran-war-us-trump-oil" },
+          { name: "CBS News", url: "https://www.cbsnews.com/live-updates/iran-war-gas-price-4-dollar-gallon-oil-trump-isfahan-desalination-plant/" },
+          { name: "Al Jazeera", url: "https://www.aljazeera.com/opinions/2026/3/16/the-us-israeli-strategy-against-iran-is-working-here-is-why" },
+          { name: "Wikipedia", url: "https://en.wikipedia.org/wiki/2026_Israeli%E2%80%93United_States_strikes_on_Iran" }
+        ],
+        bias: "Critical",
+        perspective: "CNN and CBS provide live updates focused on Trump's rhetoric and domestic impact. NPR covers the broader international reaction. Al Jazeera argues the strategy is working from a geopolitical standpoint but highlights humanitarian costs. Flashpoint and OSINT trackers document over 4,500 verified casualties across all regional fronts."
       },
       {
-        title: 'Global Markets Rally on Positive Economic Data',
-        description: 'Stock markets across Asia and Europe posted strong gains following better-than-expected employment figures and consumer confidence reports.',
-        source: 'FinanceWorld',
-        date: '3 hours ago',
-        category: 'Business'
+        section: "global",
+        headline: "US Gas Prices Hit $4 Per Gallon as Iran War Disrupts Oil Markets",
+        summary: "The national average for a gallon of regular gasoline crossed $4.02 — the highest since August 2022 — driven by the Iran conflict's disruption of the Strait of Hormuz. An Iranian drone struck a Kuwait-flagged tanker near Dubai, and Gulf oil producers are cutting production as they run out of crude storage with the strait effectively closed.",
+        sources: [
+          { name: "CNBC", url: "https://www.cnbc.com/2026/03/31/gas-oil-diesel-price-iran-war.html" },
+          { name: "NPR", url: "https://www.npr.org/2026/03/31/nx-s1-5759679/us-gas-price-4-dollars-gallon-iran" },
+          { name: "Axios", url: "https://www.axios.com/2026/03/31/us-gas-price-iran-war" },
+          { name: "Time", url: "https://time.com/article/2026/03/31/gas-prices-us-iran-war/" },
+          { name: "Fox Business", url: "https://www.foxbusiness.com/economy/us-gas-prices-4-dollars-iran-conflict-oil-surge" }
+        ],
+        bias: "Analytical",
+        perspective: "CNBC and Fox Business focus on market data and consumer impact, noting a 30%+ rise since February. NPR and Time provide broader economic context. Axios highlights the political risk for the administration heading into midterms."
       },
       {
-        title: 'Breakthrough in Quantum Computing Achieves New Milestone',
-        description: 'Researchers at a leading university have demonstrated a quantum processor capable of solving problems previously deemed intractable.',
-        source: 'ScienceNow',
-        date: '5 hours ago',
-        category: 'Science'
+        section: "global",
+        headline: "Houthis Enter Iran War With Ballistic Missile Strikes on Israel",
+        summary: "Yemen's Houthis formally entered the 2026 Iran war on March 28, launching their first ballistic missile attacks on southern Israel — all intercepted. The escalation expanded the conflict to yet another front, with eight killed and 31 injured in a separate Israeli airstrike on Beirut's Ramlet al-Baida beach.",
+        sources: [
+          { name: "Democracy Now!", url: "https://www.democracynow.org/2026/3/30/headlines" },
+          { name: "IranWarLive", url: "https://iranwarlive.com/recap" },
+          { name: "Euronews", url: "https://www.euronews.com/video/2026/03/31/latest-news-bulletin-march-31st-2026-midday" },
+          { name: "Wikipedia", url: "https://en.wikipedia.org/wiki/Timeline_of_the_2026_Iran_war" }
+        ],
+        bias: "Critical",
+        perspective: "Democracy Now! emphasizes civilian casualties in Lebanon and the humanitarian toll. IranWarLive provides OSINT tracking of military movements. Euronews covers the diplomatic dimension and European reaction to the widening conflict."
       },
       {
-        title: 'New Study Links Exercise Patterns to Improved Mental Health',
-        description: 'A comprehensive study involving 50,000 participants reveals that consistent moderate exercise significantly reduces anxiety and depression symptoms.',
-        source: 'HealthInsight',
-        date: '6 hours ago',
-        category: 'Health'
+        section: "czech",
+        headline: "Babiš Threatens Fuel Margin Caps as Czech Prices Spike",
+        summary: "PM Andrej Babiš called Czech fuel prices 'outrageous' and said capping retailer margins may be the only immediate relief, as petrol rose 8% and diesel 11% in a single week due to the Iran war. The government met with five major fuel distributors on Monday, though opposition warned such caps risk anti-competitive practices.",
+        sources: [
+          { name: "Bloomberg", url: "https://www.bloomberg.com/news/articles/2026-03-27/czech-premier-urges-fuel-retailers-to-lower-outrageous-prices" },
+          { name: "Radio Prague", url: "https://english.radio.cz/babis-says-fuel-price-relief-may-require-capping-traders-margins-8882099" },
+          { name: "Prague Morning", url: "https://praguemorning.cz/czech-fuel-prices-rise-2026/" },
+          { name: "Expats.cz", url: "https://www.expats.cz/czech-news/article/czech-news-in-brief-for-march-29-2026-sunday-top-afternoon-headlines" }
+        ],
+        bias: "Analytical",
+        perspective: "Bloomberg frames it as market intervention risk. Radio Prague provides balanced domestic political context. Prague Morning focuses on consumer impact with diesel nearing 40 CZK/liter. Expats.cz notes the Finance Ministry had already been scrutinizing margins before the PM's intervention."
       },
       {
-        title: 'Championship Finals Set After Dramatic Semifinals',
-        description: 'Both semifinal matches delivered unexpected results as underdog teams secured their spots in next week\'s championship finale.',
-        source: 'SportsBeat',
-        date: '7 hours ago',
-        category: 'Sports'
+        section: "czech",
+        headline: "Suspect Detained in Russian House Prague Firebombing",
+        summary: "Czech police detained a foreign national who confessed to throwing Molotov cocktails at the Russian House cultural center in Prague on March 26. No one was injured in the attack, which damaged library windows and the building's facade. The suspect said he had been planning the attack since summer 2025 and faces up to six years in prison.",
+        sources: [
+          { name: "Expats.cz", url: "https://www.expats.cz/czech-news/article/czech-news-in-brief-for-march-30-2026-monday-top-morning-headlines" },
+          { name: "Pravda Czechia", url: "https://czechia.news-pravda.com/en/world/2026/03/31/11699.html" },
+          { name: "ČTK (via Pravda)", url: "https://czechia.news-pravda.com/en/czechia/2026/03/31/11695.html" }
+        ],
+        bias: "Neutral",
+        perspective: "Expats.cz provides factual reporting on the arrest. Pravda Czechia offers more detail from the Russian House director Igor Girenko, who disputed reports that the attacker turned himself in voluntarily. ČTK wire coverage sticks to confirmed police statements."
       },
       {
-        title: 'International Summit Addresses Climate Action Targets',
-        description: 'World leaders convened to discuss updated emissions targets and funding mechanisms for climate adaptation in developing nations.',
-        source: 'GlobalReport',
-        date: '8 hours ago',
-        category: 'World'
+        section: "czech",
+        headline: "Record 128,000 Attend Prague World Figure Skating Championships",
+        summary: "The World Figure Skating Championships concluded in Prague with a record attendance of 128,000 spectators across the event. Czech media leaders also used the week to urge politicians to stop attacks undermining journalistic independence.",
+        sources: [
+          { name: "Expats.cz", url: "https://www.expats.cz/czech-news/article/czech-news-in-brief-for-march-30-2026-monday-top-afternoon-headlines" }
+        ],
+        bias: "Neutral",
+        perspective: "Expats.cz covers both the sporting achievement and the media freedom advocacy as separate but contemporaneous Czech stories from the weekend."
       },
       {
-        title: 'Electric Vehicle Adoption Surpasses Projections',
-        description: 'EV sales in Q1 exceeded analyst forecasts by 18%, driven by new affordable models and expanded charging infrastructure.',
-        source: 'TechDaily',
-        date: '10 hours ago',
-        category: 'Technology'
+        section: "dobris",
+        headline: "D4 Bridge Replacement Near Dobříš Starts Tomorrow, 7-Month Project",
+        summary: "Starting April 1, the Road and Motorway Directorate will replace the bridge at km 30 of the D4 highway near Dobříš, carrying 24,000 vehicles daily. Traffic will be maintained in narrowed lanes — no full closure. Simultaneously, work continues on a second bridge at km 28 near Stará Huť through November.",
+        sources: [
+          { name: "Příbramský deník", url: "https://pribramsky.denik.cz/zpravy_region/vymena-mostu-u-dobrise-omezi-provoz-na-dalnici-d4-uzavirka-nehrozi-2026.html" },
+          { name: "RegionPříbramsko", url: "https://www.regionpribramsko.cz/zpravy/aktualne/32894--Modernizace-dvou-mostu-na-dalnici-D4-u-Dobrise-omezi-tisice-ridicu-na-tahu-Praha-Dobris.html" },
+          { name: "Zdopravy.cz", url: "https://zdopravy.cz/most-na-dalnici-d4-u-dobrise-ceka-demolice-dalsi-omezeni-bude-u-stare-hute-276640/" },
+          { name: "Dopravní noviny", url: "https://www.dnoviny.cz/infrastruktura/v-dubnu-zacne-vymena-mostu-na-dalnici-d4-u-dobrise" }
+        ],
+        bias: "Neutral",
+        perspective: "Příbramský deník and RegionPříbramsko focus on the local commuter impact and alternative routes. Zdopravy.cz provides technical details on bridge condition ratings. Dopravní noviny covers the broader D4 modernization programme."
       },
       {
-        title: 'Central Banks Signal Cautious Approach to Rate Decisions',
-        description: 'Federal Reserve and ECB officials indicated data-dependent strategies amid mixed inflation signals across major economies.',
-        source: 'FinanceWorld',
-        date: '12 hours ago',
-        category: 'Business'
+        section: "dobris",
+        headline: "Dobříš Secures School Places for All First Graders",
+        summary: "The city of Dobříš managed to secure primary school attendance for all eligible children starting September, increasing class numbers at both schools. The solution was enabled in part by provisions under the Lex Ukrajina legislation.",
+        sources: [
+          { name: "Příbramský deník", url: "https://pribramsky.denik.cz/zpravy_region/dobris-nakonec-nasla-misto-pro-vsechny-prvnacky-pomohl-lex-ukrajina-2026.html" }
+        ],
+        bias: "Neutral",
+        perspective: "Příbramský deník reports on the practical resolution after capacity concerns, noting the role of Lex Ukrajina provisions in enabling expanded enrollment."
+      },
+      {
+        section: "tech",
+        headline: "OpenAI Launches GPT-5.4 With 1M Token Context Window",
+        summary: "OpenAI released GPT-5.4 on March 5 in Thinking and Pro variants, featuring a 1.05 million token context window, 33% fewer factual errors than GPT-5.2, and enhanced agentic workflow capabilities. The model incorporates GPT-5.3-Codex coding abilities and is available to Plus, Team, and Pro users.",
+        sources: [
+          { name: "OpenAI", url: "https://openai.com/index/introducing-gpt-5-4/" },
+          { name: "TechCrunch", url: "https://techcrunch.com/2026/03/05/openai-launches-gpt-5-4-with-pro-and-thinking-versions/" },
+          { name: "Fortune", url: "https://fortune.com/2026/03/05/openai-new-model-gpt5-4-enterprise-agentic-anthropic/" },
+          { name: "NxCode", url: "https://www.nxcode.io/resources/news/gpt-5-4-release-date-features-pricing-2026" }
+        ],
+        bias: "Analytical",
+        perspective: "OpenAI's blog emphasizes safety and enterprise readiness. TechCrunch and Fortune analyze the competitive pressure from Anthropic's Claude and Google's Gemini. NxCode provides technical benchmarks including 75% computer-use accuracy and $2.50/MTok pricing."
+      },
+      {
+        section: "tech",
+        headline: "Apple Confirms Gemini-Powered Siri Overhaul in $1B Google Deal",
+        summary: "Apple officially confirmed that iOS 26.4 will ship with a completely rebuilt Siri powered by Google's Gemini model in a deal worth approximately $1 billion per year. The new Siri features on-screen context awareness and can chain up to 10 sequential actions from a single command, running on Apple's Private Cloud Compute servers.",
+        sources: [
+          { name: "CNBC", url: "https://www.cnbc.com/2026/01/12/apple-google-ai-siri-gemini.html" },
+          { name: "Google Blog", url: "https://blog.google/company-news/inside-google/company-announcements/joint-statement-google-apple/" },
+          { name: "Gadget Hacks", url: "https://apple.gadgethacks.com/news/apple-siri-gets-1b-google-gemini-ai-upgrade-in-2026/" },
+          { name: "News9live", url: "https://www.news9live.com/technology/artificial-intelligence/apple-google-ai-deal-deepens-new-gemini-powers-next-gen-siri-ahead-of-wwdc-2026-2948013" }
+        ],
+        bias: "Analytical",
+        perspective: "CNBC focuses on the financial terms and competitive implications for the AI industry. Google's joint statement emphasizes the technical partnership. Gadget Hacks breaks down the consumer-facing features. News9live examines the privacy architecture ensuring user data stays on Apple infrastructure."
+      },
+      {
+        section: "tech",
+        headline: "Atlassian Cuts 10% of Workforce to Pivot Toward AI Development",
+        summary: "Atlassian announced layoffs of roughly 10% of its global workforce to redirect resources toward AI development, simultaneously replacing its CTO with two new AI-focused CTOs. Meanwhile, Meta revealed four new generations of custom AI chips (MTIA 300–500) for deployment across its data centers by end of 2027.",
+        sources: [
+          { name: "VTNetzwelt", url: "https://www.vtnetzwelt.com/ai-development/latest-ai-technology-news-roundup-march-2026/" },
+          { name: "BuildFastWithAI", url: "https://www.buildfastwithai.com/blogs/ai-models-march-2026-releases" },
+          { name: "Crescendo AI", url: "https://www.crescendo.ai/news/latest-ai-news-and-updates" }
+        ],
+        bias: "Analytical",
+        perspective: "VTNetzwelt covers the broader industry trend of companies restructuring for AI. BuildFastWithAI focuses on the technical implications of Meta's custom silicon. Crescendo AI contextualizes both moves within the 'AI pragmatism' shift of 2026."
       }
     ];
+    // ============================================================
+    // END NEWS DATA
+    // ============================================================
 
-    function renderCategories() {
-      const nav = document.getElementById('categories');
-      nav.innerHTML = categories.map(cat =>
-        `<button class="category-btn ${cat === activeCategory ? 'active' : ''}" onclick="setCategory('${cat}')">${cat}</button>`
-      ).join('');
-    }
+    const SECTION_META = {
+      global: { emoji: "🌍", label: "Global", color: "#f59e0b" },
+      czech:  { emoji: "🇨🇿", label: "Czech", color: "#3b82f6" },
+      dobris: { emoji: "📍", label: "Dobříš", color: "#22c55e" },
+      tech:   { emoji: "🤖", label: "AI & Tech", color: "#a855f7" }
+    };
 
-    function setCategory(cat) {
-      activeCategory = cat;
-      renderCategories();
+    let activeSection = "all";
+
+    function init() {
+      renderNav();
+      renderStats();
       renderNews();
     }
 
-    function filterNews() {
+    function renderNav() {
+      const nav = document.getElementById("sectionNav");
+      let html = `<button class="section-btn ${activeSection === 'all' ? 'active' : ''}" data-section="all" onclick="setSection('all')">All</button>`;
+      for (const [key, meta] of Object.entries(SECTION_META)) {
+        html += `<button class="section-btn ${activeSection === key ? 'active' : ''}" data-section="${key}" onclick="setSection('${key}')">${meta.emoji} ${meta.label}</button>`;
+      }
+      nav.innerHTML = html;
+    }
+
+    function renderStats() {
+      const el = document.getElementById("headerStats");
+      const totalStories = NEWS_DATA.length;
+      const totalRefs = NEWS_DATA.reduce((sum, s) => sum + s.sources.length, 0);
+      const date = new Date(NEWS_UPDATED);
+      const formatted = date.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+      el.textContent = `${formatted} · ${totalStories} stories · ${totalRefs} source refs`;
+    }
+
+    function setSection(s) {
+      activeSection = s;
+      renderNav();
       renderNews();
     }
 
     function renderNews() {
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-      const grid = document.getElementById('newsGrid');
-      const title = document.getElementById('sectionTitle');
+      const main = document.getElementById("main");
+      const sections = activeSection === "all"
+        ? Object.keys(SECTION_META)
+        : [activeSection];
 
-      let filtered = sampleNews;
+      let html = "";
+      for (const sec of sections) {
+        const meta = SECTION_META[sec];
+        const stories = NEWS_DATA.filter(s => s.section === sec);
+        if (stories.length === 0) continue;
 
-      if (activeCategory !== 'All') {
-        filtered = filtered.filter(n => n.category === activeCategory);
-        title.textContent = activeCategory;
-      } else {
-        title.textContent = 'Latest Updates';
+        html += `<div class="section-group">`;
+        html += `<span class="section-label ${sec}">${meta.emoji} ${meta.label}</span>`;
+        html += `<div class="cards">`;
+
+        for (const story of stories) {
+          const coverageCount = story.sources.length;
+          html += renderCard(story, coverageCount);
+        }
+
+        html += `</div></div>`;
       }
 
-      if (searchTerm) {
-        filtered = filtered.filter(n =>
-          n.title.toLowerCase().includes(searchTerm) ||
-          n.description.toLowerCase().includes(searchTerm) ||
-          n.source.toLowerCase().includes(searchTerm)
-        );
+      if (!html) {
+        html = `<div class="empty-state"><h3>No stories available</h3><p>Check back after the next update.</p></div>`;
       }
 
-      if (filtered.length === 0) {
-        grid.innerHTML = `
-          <div class="empty-state">
-            <h3>No articles found</h3>
-            <p>Try a different search term or category.</p>
-          </div>`;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(article => `
-        <article class="news-card">
-          <div class="news-card-header">
-            <h3>${article.title}</h3>
-            <span class="badge">${article.category}</span>
-          </div>
-          <p>${article.description}</p>
-          <div class="news-meta">
-            <span class="source">${article.source}</span>
-            <span class="dot">&middot;</span>
-            <span>${article.date}</span>
-          </div>
-        </article>
-      `).join('');
-
-      document.getElementById('timestamp').textContent = `Last updated: ${new Date().toLocaleString()}`;
+      main.innerHTML = html;
     }
 
-    renderCategories();
-    renderNews();
+    function renderCard(story, coverageCount) {
+      const biasClass = "bias-" + story.bias.toLowerCase();
+
+      // Coverage squares
+      let squares = "";
+      for (let i = 0; i < 6; i++) {
+        if (i < coverageCount) {
+          const cls = coverageCount >= 5 ? "filled-high" : coverageCount >= 3 ? "filled-mid" : "filled-low";
+          squares += `<div class="coverage-sq ${cls}"></div>`;
+        } else {
+          squares += `<div class="coverage-sq"></div>`;
+        }
+      }
+
+      const coverageText = coverageCount >= 5 ? "major" : coverageCount >= 3 ? "notable" : "minor";
+
+      // Source tags
+      const sourceTags = story.sources.map(s =>
+        `<a class="source-tag" href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`
+      ).join("");
+
+      const pid = "p-" + Math.random().toString(36).slice(2, 8);
+
+      return `
+        <article class="card">
+          <div class="card-top">
+            <h3>${story.headline}</h3>
+            <span class="bias-badge ${biasClass}">${story.bias}</span>
+          </div>
+          <p class="card-summary">${story.summary}</p>
+          <div class="coverage-row">
+            <div class="coverage-bar">${squares}</div>
+            <span class="coverage-label">${coverageCount} sources · ${coverageText}</span>
+          </div>
+          <div class="perspective">
+            <button class="perspective-toggle" onclick="togglePerspective('${pid}', this)">
+              <span>◎</span> Perspective Analysis
+            </button>
+            <p class="perspective-text" id="${pid}">${story.perspective}</p>
+          </div>
+          <div class="card-sources">${sourceTags}</div>
+        </article>`;
+    }
+
+    function togglePerspective(id, btn) {
+      const el = document.getElementById(id);
+      el.classList.toggle("open");
+    }
+
+    init();
   </script>
 </body>
 </html>
