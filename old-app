@@ -1,0 +1,65 @@
+# BRIEFCAST — Complete App Description
+
+## What It Is
+A personal news aggregator that fetches, deduplicates, and synthesizes real-time news using Claude's web search. Instead of showing you the same story 5 times from different outlets, it merges them into one smart card with a cross-source analysis.
+
+---
+
+## Controls
+
+**Sections** — Select 1 to 4 simultaneously, each color-coded:
+- 🌍 Global (gold) — world politics, economy, international affairs
+- 🇨🇿 Czech (blue) — Czech Republic news, politics, society
+- 📍 Dobříš (green) — local Dobříš/Příbram region news
+- 🤖 AI & Tech (purple) — artificial intelligence, technology
+
+**Stories per Section** — 1 to 10. If you pick 5 stories and 3 sections, you get up to 15 cards total. The hint line shows the math live.
+
+**Period** — Last 24h / 3 Days / 7 Days / 30 Days
+
+**Sources** — 15 outlets, toggle any on/off:
+- 🇨🇿 ČT24, Kurzy.cz
+- 📍 Dobříšsko.cz, Příbramský deník, FB Město Dobříš
+- 🌐 Reuters, AP News, Al Jazeera
+- 🇺🇸 CNN, Politico
+- 🇬🇧 BBC, Guardian, Financial Times
+- 🇩🇪 DW
+- 🇪🇺 Euronews
+
+---
+
+## How Aggregation Works
+
+When you hit **Aggregate**, Claude searches multiple sources for each story topic, then:
+
+1. **Deduplicates** — same event from 5 outlets = one card, not five
+2. **Synthesizes** — writes a unified 2–3 sentence summary combining all angles
+3. **Cross-checks** — a client-side word-overlap pass catches anything that slipped through
+4. **Sorts by coverage** — biggest stories (most sources) appear first
+
+---
+
+## Each News Card Shows
+
+- **Headline** — synthesized, max 12 words
+- **Summary** — unified factual account from all sources
+- **Coverage bar** — 6 squares filling up with color:
+  - Grey = 1–2 sources (minor story)
+  - Yellow = 3–4 sources (notable)
+  - Red = 5+ sources (major breaking news)
+- **Bias badge** — Neutral / Liberal / Conservative / Critical / Analytical / Sensational
+- **◎ Perspective Analysis** — names specific outlets and compares how each frames the story differently (e.g. *"Reuters leads with economic data; CNN focuses on political fallout; Al Jazeera is sharply critical of Western response"*)
+- **Aggregated from** — clickable source tags linking to each outlet that covered the story
+
+---
+
+## Header Stats
+After fetching, the header shows the timestamp and a summary like *"8 stories · 23 source refs"* so you know how much was cross-referenced.
+
+---
+
+## Tech Stack
+- **React** (JSX artifact, runs in Claude.ai)
+- **Anthropic API** — claude-sonnet-4, web_search tool enabled
+- **Fonts** — Playfair Display (headlines), DM Sans (body), DM Mono (metadata)
+- **No backend, no database** — fully stateless, fetches fresh on demand
