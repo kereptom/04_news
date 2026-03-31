@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Update</title>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background-color: #0a0a0a;
+      color: #ededed;
+      min-height: 100vh;
+    }
+
+    header {
+      border-bottom: 1px solid #1a1a1a;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: #0a0a0a;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span {
+      color: #3b82f6;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #141414;
+      border: 1px solid #262626;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      width: 320px;
+    }
+
+    .search-bar input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ededed;
+      font-size: 0.875rem;
+      width: 100%;
+    }
+
+    .search-bar input::placeholder {
+      color: #666;
+    }
+
+    .search-icon {
+      color: #666;
+      font-size: 0.875rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 0.25rem;
+      padding: 0.75rem 2rem;
+      border-bottom: 1px solid #1a1a1a;
+      overflow-x: auto;
+    }
+
+    .category-btn {
+      padding: 0.375rem 0.875rem;
+      border-radius: 6px;
+      border: 1px solid #262626;
+      background: transparent;
+      color: #999;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .category-btn:hover {
+      border-color: #404040;
+      color: #ededed;
+    }
+
+    .category-btn.active {
+      background: #ededed;
+      color: #0a0a0a;
+      border-color: #ededed;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .news-grid {
+      display: grid;
+      gap: 1px;
+      background: #1a1a1a;
+      border: 1px solid #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .news-card {
+      background: #0a0a0a;
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .news-card:hover {
+      background: #111;
+    }
+
+    .news-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .news-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+    }
+
+    .news-card .badge {
+      font-size: 0.6875rem;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      background: #1e3a5f;
+      color: #60a5fa;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .news-card p {
+      font-size: 0.875rem;
+      color: #888;
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+
+    .news-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.75rem;
+      color: #555;
+    }
+
+    .news-meta .source {
+      color: #3b82f6;
+      font-weight: 500;
+    }
+
+    .news-meta .dot {
+      color: #333;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #555;
+    }
+
+    .empty-state h3 {
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+      color: #888;
+    }
+
+    .timestamp {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.75rem;
+      color: #444;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1rem;
+      }
+      .search-bar {
+        width: 100%;
+      }
+      nav {
+        padding: 0.75rem 1rem;
+      }
+      main {
+        padding: 1.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">News<span>Update</span></div>
+    <div class="search-bar">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="searchInput" placeholder="Search articles..." oninput="filterNews()">
+    </div>
+  </header>
+
+  <nav id="categories"></nav>
+
+  <main>
+    <p class="section-title" id="sectionTitle">Latest Updates</p>
+    <div class="news-grid" id="newsGrid"></div>
+    <p class="timestamp" id="timestamp"></p>
+  </main>
+
+  <script>
+    const categories = ['All', 'Technology', 'Business', 'Science', 'Health', 'Sports', 'World'];
+    let activeCategory = 'All';
+
+    const sampleNews = [
+      {
+        title: 'AI Models Continue to Transform Software Development',
+        description: 'New research shows a significant increase in developer productivity when using AI-assisted coding tools across enterprise teams.',
+        source: 'TechDaily',
+        date: '2 hours ago',
+        category: 'Technology'
+      },
+      {
+        title: 'Global Markets Rally on Positive Economic Data',
+        description: 'Stock markets across Asia and Europe posted strong gains following better-than-expected employment figures and consumer confidence reports.',
+        source: 'FinanceWorld',
+        date: '3 hours ago',
+        category: 'Business'
+      },
+      {
+        title: 'Breakthrough in Quantum Computing Achieves New Milestone',
+        description: 'Researchers at a leading university have demonstrated a quantum processor capable of solving problems previously deemed intractable.',
+        source: 'ScienceNow',
+        date: '5 hours ago',
+        category: 'Science'
+      },
+      {
+        title: 'New Study Links Exercise Patterns to Improved Mental Health',
+        description: 'A comprehensive study involving 50,000 participants reveals that consistent moderate exercise significantly reduces anxiety and depression symptoms.',
+        source: 'HealthInsight',
+        date: '6 hours ago',
+        category: 'Health'
+      },
+      {
+        title: 'Championship Finals Set After Dramatic Semifinals',
+        description: 'Both semifinal matches delivered unexpected results as underdog teams secured their spots in next week\'s championship finale.',
+        source: 'SportsBeat',
+        date: '7 hours ago',
+        category: 'Sports'
+      },
+      {
+        title: 'International Summit Addresses Climate Action Targets',
+        description: 'World leaders convened to discuss updated emissions targets and funding mechanisms for climate adaptation in developing nations.',
+        source: 'GlobalReport',
+        date: '8 hours ago',
+        category: 'World'
+      },
+      {
+        title: 'Electric Vehicle Adoption Surpasses Projections',
+        description: 'EV sales in Q1 exceeded analyst forecasts by 18%, driven by new affordable models and expanded charging infrastructure.',
+        source: 'TechDaily',
+        date: '10 hours ago',
+        category: 'Technology'
+      },
+      {
+        title: 'Central Banks Signal Cautious Approach to Rate Decisions',
+        description: 'Federal Reserve and ECB officials indicated data-dependent strategies amid mixed inflation signals across major economies.',
+        source: 'FinanceWorld',
+        date: '12 hours ago',
+        category: 'Business'
+      }
+    ];
+
+    function renderCategories() {
+      const nav = document.getElementById('categories');
+      nav.innerHTML = categories.map(cat =>
+        `<button class="category-btn ${cat === activeCategory ? 'active' : ''}" onclick="setCategory('${cat}')">${cat}</button>`
+      ).join('');
+    }
+
+    function setCategory(cat) {
+      activeCategory = cat;
+      renderCategories();
+      renderNews();
+    }
+
+    function filterNews() {
+      renderNews();
+    }
+
+    function renderNews() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const grid = document.getElementById('newsGrid');
+      const title = document.getElementById('sectionTitle');
+
+      let filtered = sampleNews;
+
+      if (activeCategory !== 'All') {
+        filtered = filtered.filter(n => n.category === activeCategory);
+        title.textContent = activeCategory;
+      } else {
+        title.textContent = 'Latest Updates';
+      }
+
+      if (searchTerm) {
+        filtered = filtered.filter(n =>
+          n.title.toLowerCase().includes(searchTerm) ||
+          n.description.toLowerCase().includes(searchTerm) ||
+          n.source.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <h3>No articles found</h3>
+            <p>Try a different search term or category.</p>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(article => `
+        <article class="news-card">
+          <div class="news-card-header">
+            <h3>${article.title}</h3>
+            <span class="badge">${article.category}</span>
+          </div>
+          <p>${article.description}</p>
+          <div class="news-meta">
+            <span class="source">${article.source}</span>
+            <span class="dot">&middot;</span>
+            <span>${article.date}</span>
+          </div>
+        </article>
+      `).join('');
+
+      document.getElementById('timestamp').textContent = `Last updated: ${new Date().toLocaleString()}`;
+    }
+
+    renderCategories();
+    renderNews();
+  </script>
+</body>
+</html>
